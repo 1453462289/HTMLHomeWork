@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			ul {
+			  list-style-type: none;
+			  margin: 0;
+			  padding: 0;
+			  overflow: hidden;
+			  background-color: #333;
+			  
+			  position: fixed;
+			  top: 0;
+			  width: 100%;
+			}
+			
+			li {
+			  float: left;
+			}
+			
+			li a {
+			  display: block;
+			  color: white;
+			  text-align: center;
+			  padding: 14px 16px;
+			  text-decoration: none;
+			}
+			
+			li a:hover:not(.active) {
+			  background-color: #111;
+			  
+			}
+			.active {
+			  background-color: #4CAF50;
+			}
+			#map{
+				position: absolute;
+				top:260px;
+				left:50%;
+				transform: translate(-50%,-50%);
+				border:3px solid;
+			}
+			.snakeBody{
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				background-color: black;
+			}
+			.food{
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				background-color: brown;
+			}
+			#score{
+				position: absolute; 
+				top: 500px;
+				left: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<ul>
+		  <li><a href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\dazuoye.html">主页</a></li>
+		  <li><a  href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\内容一.html">内容一</a></li>
+		  <li><a class="active" href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\内容二.html">内容二</a></li>
+		  <!-- <li><a href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\内容三.html">内容三</a></li> -->
+		</ul>
+		<div id="map" ></div>
+		<div>
+			<p id="score">score:0</p>
+		</div>
+		
+	</body>
+	<script>
+		const WIDTH=20,HEIGHT=20,SIZE=20;
+		let snakeArr=[];
+		let foodX,foodY;
+		let direction=[1,0];
+		let interval;
+		var sc=0;
+		window.onload=function(){
+			console.log("1");
+			let mapDom=document.getElementById('map');
+			let scoreDon=document.getElementById("score");
+			
+			mapDom.style.width =WIDTH*SIZE+'px';
+			mapDom.style.height =HEIGHT*SIZE+'px';
+			createFood();
+			init();
+			interval = setInterval(function(){
+				if(eat())
+				{
+					createFood();
+					addBody();
+					sc+=1;
+					scoreDon.innerHTML="score:"+sc.toString();
+				}
+				let snakeHtml = '';
+				for(let i=0;i<snakeArr.length;i++)
+				{
+					snakeHtml +='<div class="snakeBody" style ="left:'+snakeArr[i].x*SIZE+'px;top:'+snakeArr[i].y*SIZE+'px"></div>';
+				}
+				snakeHtml+='<div class="food" style ="left:'+foodX*SIZE+'px;top:'+foodY*SIZE+'px"></div>';
+				mapDom.innerHTML=snakeHtml;
+				out();
+				eatSelf();
+				move();
+				
+			},200);
+			
+		}
+		
+		function init(){
+			snakeArr[0]={x:5,y:4};
+			snakeArr[1]={x:4,y:4};
+			snakeArr[2]={x:3,y:4};
+		}
+		function createFood(){
+			foodX=Math.floor(Math.random()*WIDTH);
+			foodY=Math.floor(Math.random()*HEIGHT);
+		}
+		function move(){
+			for(let i=snakeArr.length-1;i>0;i--)
+			{
+				snakeArr[i].x=snakeArr[i-1].x;
+				snakeArr[i].y=snakeArr[i-1].y;
+			}
+			snakeArr[0].x+=direction[0];
+			snakeArr[0].y+=direction[1];
+		}
+		function out(){
+			if(snakeArr[0].x<0||snakeArr[0].y<0||snakeArr[0].x>=WIDTH||snakeArr[0].y>=HEIGHT)
+			{
+				alert("game over,"+"your score is "+sc);
+				clearInterval(interval);
+			}
+		}
+		function eat(){
+			if(snakeArr[0].x==foodX&&snakeArr[0].y==foodY)
+				return true;
+		}
+		function addBody(){
+			let lastBody=snakeArr[snakeArr.length-1];
+			snakeArr.push({x:lastBody.x,y:lastBody.y});
+		}
+		function eatSelf()
+		{
+			let SnakeHead=snakeArr[0];
+			for(var i=1;i<snakeArr.length;i++)
+			{
+				if(snakeArr[i].x==SnakeHead.x&&snakeArr[i].y==SnakeHead.y)
+				{
+					alert("game over");
+					clearInterval(interval);
+				}
+			}
+		}
+		document.onkeydown = function(e){
+			switch(e.keyCode)
+			{
+				case 37:if(direction[0]!=1){direction = [-1,0]}break;
+				case 38:if(direction[1]!=1){direction = [0,-1]}break;
+				case 39:if(direction[0]!=-1){direction = [1,0]}break;
+				case 40:if(direction[1]!=-1){direction = [0,1]}break;
+			}
+		}
+	</script>
+</html>

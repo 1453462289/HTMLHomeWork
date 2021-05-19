@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {margin:0;}
+
+	@keyframes zhuan{
+		from{transform:rotate(0deg);}
+		to{transform:rotate(360deg)}
+	}
+.ranimea{
+		position:fixed;
+		display: block;
+		top:50px;
+		left:90%;
+		text-align: right;
+		/* left:353px;
+		top:230px; */
+		float:right;
+		animation: zhuan 4s infinite linear;
+	}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+  
+}
+
+.active {
+  background-color: #4CAF50;
+}
+h1{
+	color: aliceblue;
+	text-shadow: 2px 2px burlywood;
+}
+p.border{
+	border: groove;
+	background-color: #DEB887;
+	height: 10px;
+}
+.mainbg{
+	padding:20px;
+	margin-top:30px;
+	background-color:#1abc9c;
+	height:1500px;
+	background-image: linear-gradient(to bottom right, #1abc9c, yellow);
+}
+</style>
+
+
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#主页">主页</a></li>
+  <li><a href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\内容一.html">内容一</a></li>
+  <li><a href="C:\Users\yjl\Desktop\大三下\网页设计\期中期末\内容二.html">内容二</a></li>
+ <!-- <li><a href="#about">内容3</a></li> -->
+</ul>
+<div class ="ranimea">
+	<audio id="music" src="E:\CloudMusic\星茶会.mp3" loop autoplay></audio>
+	<img src = "C:\Users\yjl\Desktop\大三下\网页设计\期中期末\图像\皮卡丘.png" width="100" id = "zhuan" onclick="play()">
+	
+</div>
+
+<div class="mainbg">
+<h1>这里是我的主页</h1>
+<h1>点击右侧图像可播放/暂停音乐</h1> 
+<p class="border"></p>
+<h1>点击网页上方进入其他页面</h1>
+</div>
+
+
+<script>
+	window.onload = function(){
+		var audio = document.getElementById("music");
+		audio.pause();
+	}
+	function play(){
+		console.log("click")
+		var audio=document.getElementById("music");
+		if(audio.paused)
+		{
+			audio.play();
+		}
+		 else
+		{
+			audio.pause();
+		}
+	}
+</script>
+
+</body>
+
+</html>
